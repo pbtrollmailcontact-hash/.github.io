@@ -1,38 +1,81 @@
+# 1. Force le passage en plein écran
+$wshell = New-Object -ComObject Wscript.Shell
+$wshell.SendKeys("{F11}") 2>$null
+$wshell.SendKeys("%{ENTER}") 2>$null
+
+# 2. Bloque l'interruption par Ctrl+C
+[console]::TreatControlCAsInput = $true
+
 Clear-Host
 $Host.UI.RawUI.ForegroundColor = "Red"
-Write-Host "[!] WARNING: MALWARE DETECTED"
-Write-Host "[!] SYSTEM INFECTION IN PROGRESS..."
+Write-Host "[!] CRITICAL WARNING: SYSTEM INFECTION IN PROGRESS..." -ForegroundColor Black -BackgroundColor Red
+Write-Host "[!] DO NOT TURN OFF YOUR COMPUTER" -ForegroundColor Yellow
+Write-Host ""
 Start-Sleep -Seconds 2
 
-for ($i = 1; $i -le 40; $i++) {
-    $random = Get-Random -Minimum 1000 -Maximum 9999
-    Write-Host "[CRITICAL] Encrypting: C:\Users\System32\Data_File_$random.dll..."
+# Faux chiffrement avec bips sonores (fréquence 800Hz, durée 50ms)
+for ($i = 1; $i -le 30; $i++) {
+    $random = Get-Random -Minimum 100000 -Maximum 999999
+    Write-Host "[DESTROY] Corrupting sector: 0x$random... ENCRYPTED" -ForegroundColor Red
+    [console]::Beep(800, 50)
     Start-Sleep -Milliseconds 40
 }
 
-Clear-Host
-Write-Host "======================================================================="
-Write-Host "               !!! ALL YOUR FILES HAVE BEEN ENCRYPTED !!!"
-Write-Host "======================================================================="
-Write-Host ""
-Write-Host "Your documents, photos, databases and other important files are"
-Write-Host "no longer accessible because they have been encrypted with an"
-Write-Host "advanced military-grade AES-256 algorithm."
-Write-Host ""
-Write-Host "-----------------------------------------------------------------------"
-Write-Host " To recover your data, you must send 0.0001 BTC to the following address:"
-Write-Host " Wallet: 1FakeRansomNoteAddressXyZ123456789"
-Write-Host "-----------------------------------------------------------------------"
-Write-Host ""
-Write-Host "[🔒] ENTER THE DECRYPTION KEY TO UNLOCK YOUR PC:"
-Write-Host ""
+# Fonction pour afficher l'écran principal avec un compte à rebours statique/dynamique
+function Afficher-EcranRansom ($tempsRestant) {
+    Clear-Host
+    Write-Host "=======================================================================" -ForegroundColor Red
+    Write-Host "               !!! ALL YOUR FILES HAVE BEEN ENCRYPTED !!!" -ForegroundColor Red
+    Write-Host "=======================================================================" -ForegroundColor Red
+    Write-Host ""
+    Write-Host "Your documents, photos, databases and other important files are"
+    Write-Host "no longer accessible because they have been encrypted with an"
+    Write-Host "advanced military-grade AES-256 algorithm."
+    Write-Host ""
+    Write-Host "-----------------------------------------------------------------------"
+    Write-Host " To recover your data, you must send 0.0001 BTC to the following address:"
+    Write-Host " Wallet: 1FakeRansomNoteAddressXyZ123456789"
+    Write-Host "-----------------------------------------------------------------------"
+    Write-Host ""
+    Write-Host " [⏳] TIME LEFT BEFORE TOTAL DESTRUCTION : $tempsRestant sec" -ForegroundColor Yellow
+    Write-Host ""
+    Write-Host "[🔒] ENTER THE DECRYPTION KEY TO UNLOCK YOUR PC (Or Alt+F4 to escape):"
+    Write-Host ""
+}
 
+# Initialisation du temps fictif avant "destruction"
+$temps = 300
+Afficher-EcranRansom $temps
+
+$essais = 0
+
+# 3. Boucle de verrouillage agressive
 do {
-    $key = Read-Host -Prompt "> "
+    # On met une saisie avec un timeout court (1 seconde) pour pouvoir mettre à jour le chrono
+    # Mais pour faire simple et éviter les bugs de saisie, on reste sur une attente classique :
+    $key = Read-Host -Prompt "DECRYPT_KEY > "
+    
     if ($key -ne "phubtroll") {
-        Write-Host "[X] WRONG KEY. ACCESS DENIED. TRY AGAIN." -ForegroundColor Red
+        $essais++
+        # Gros bip d'erreur strident
+        [console]::Beep(400, 500)
+        
+        $temps = $temps - 45 # On retire du temps pour faire stresser !
+        if ($temps -lt 0) { $temps = 0 }
+        
+        Afficher-EcranRansom $temps
+        Write-Host "[X] WRONG KEY. ACCESS DENIED. PENALTY: -45 SECONDS." -ForegroundColor Black -BackgroundColor Red
+        Write-Host ""
+        
+        if ($essais -ge 3) {
+            Write-Host "💡 PAS DE PANIQUE ! C'est un troll. La clef est : phubtroll" -ForegroundColor VisualStudioGreen
+            Write-Host ""
+        }
     }
 } while ($key -ne "phubtroll")
+
+# 4. Rétablissement des paramètres normaux si réussi
+[console]::TreatControlCAsInput = $false
 
 Clear-Host
 $Host.UI.RawUI.ForegroundColor = "Green"
@@ -42,9 +85,14 @@ Write-Host "====================================================================
 Write-Host ""
 Write-Host "Decompressing and restoring your files... Please wait."
 Write-Host ""
-Start-Sleep -Seconds 3
-Write-Host "[OK] All files have been successfully restored."
+for ($i=1; $i -le 3; $i++) {
+    Write-Host "[OK] Restoring partition backup $i..."
+    [console]::Beep(1200, 150)
+    Start-Sleep -Seconds 1
+}
 Write-Host ""
-Write-Host "Cet ecran etait une simulation. Aucun fichier n'a ete modifie."
+Write-Host "Cet ecran etait une pure simulation de troll. Aucun fichier n'a bouge ! ;)"
 Write-Host ""
-Read-Host -Prompt "Appuyez sur Entree pour quitter"
+Read-Host -Prompt "Appuyez sur Entree pour quitter définitivement"
+
+$wshell.SendKeys("%{ENTER}") 2>$null
