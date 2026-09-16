@@ -1,0 +1,59 @@
+@echo off
+title CRITICAL SYSTEM ERROR - ENCRYPTED
+mode con: cols=80 lines=25
+color 0C
+
+:: Simulation d'un faux chargement / chiffrement de fichiers
+echo [!] WARNING: MALWARE DETECTED
+echo [!] SYSTEM INFECTION IN PROGRESS...
+echo.
+timeout /t 2 >nul
+
+setlocal enabledelayedexpansion
+for /l %%x in (1, 1, 40) do (
+    echo [CRITICAL] Encrypting: C:\Users\System32\Data_File_!random!.dll...
+    timeout /t 0 /nobreak >nul
+)
+
+cls
+echo =======================================================================
+echo               !!! ALL YOUR FILES HAVE BEEN ENCRYPTED !!!
+echo =======================================================================
+echo.
+echo Your documents, photos, databases and other important files are
+echo no longer accessible because they have been encrypted with an
+echo advanced military-grade AES-256 algorithm.
+echo.
+echo -----------------------------------------------------------------------
+echo  To recover your data, you must send 0.0001 BTC to the following address:
+echo  Wallet: 1FakeRansomNoteAddressXyZ123456789
+echo -----------------------------------------------------------------------
+echo.
+echo [🔒] ENTER THE DECRYPTION KEY TO UNLOCK YOUR PC:
+echo.
+
+:loop
+set /p "key=> "
+if "%key%"=="phub" (
+    goto success
+) else (
+    echo [X] WRONG KEY. ACCESS DENIED. TRY AGAIN.
+    goto loop
+)
+
+:success
+cls
+color 0A
+echo =======================================================================
+echo                    SUCCESS: SYSTEM DECRYPTED !
+echo =======================================================================
+echo.
+echo Decompressing and restoring your files... Please wait.
+echo.
+timeout /t 3 >nul
+echo [OK] All files have been successfully restored. 
+echo.
+echo Cet ecran etait une simulation. Aucun fichier n'a ete modifie. ;)
+echo.
+pause
+exit
