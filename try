@@ -1,59 +1,50 @@
-@echo off
-title CRITICAL SYSTEM ERROR - ENCRYPTED
-mode con: cols=80 lines=25
-color 0C
+Clear-Host
+$Host.UI.RawUI.ForegroundColor = "Red"
+Write-Host "[!] WARNING: MALWARE DETECTED"
+Write-Host "[!] SYSTEM INFECTION IN PROGRESS..."
+Start-Sleep -Seconds 2
 
-:: Simulation d'un faux chargement / chiffrement de fichiers
-echo [!] WARNING: MALWARE DETECTED
-echo [!] SYSTEM INFECTION IN PROGRESS...
-echo.
-timeout /t 2 >nul
+for ($i = 1; $i -le 40; $i++) {
+    $random = Get-Random -Minimum 1000 -Maximum 9999
+    Write-Host "[CRITICAL] Encrypting: C:\Users\System32\Data_File_$random.dll..."
+    Start-Sleep -Milliseconds 40
+}
 
-setlocal enabledelayedexpansion
-for /l %%x in (1, 1, 40) do (
-    echo [CRITICAL] Encrypting: C:\Users\System32\Data_File_!random!.dll...
-    timeout /t 0 /nobreak >nul
-)
+Clear-Host
+Write-Host "======================================================================="
+Write-Host "               !!! ALL YOUR FILES HAVE BEEN ENCRYPTED !!!"
+Write-Host "======================================================================="
+Write-Host ""
+Write-Host "Your documents, photos, databases and other important files are"
+Write-Host "no longer accessible because they have been encrypted with an"
+Write-Host "advanced military-grade AES-256 algorithm."
+Write-Host ""
+Write-Host "-----------------------------------------------------------------------"
+Write-Host " To recover your data, you must send 0.0001 BTC to the following address:"
+Write-Host " Wallet: 1FakeRansomNoteAddressXyZ123456789"
+Write-Host "-----------------------------------------------------------------------"
+Write-Host ""
+Write-Host "[🔒] ENTER THE DECRYPTION KEY TO UNLOCK YOUR PC:"
+Write-Host ""
 
-cls
-echo =======================================================================
-echo               !!! ALL YOUR FILES HAVE BEEN ENCRYPTED !!!
-echo =======================================================================
-echo.
-echo Your documents, photos, databases and other important files are
-echo no longer accessible because they have been encrypted with an
-echo advanced military-grade AES-256 algorithm.
-echo.
-echo -----------------------------------------------------------------------
-echo  To recover your data, you must send 0.0001 BTC to the following address:
-echo  Wallet: 1FakeRansomNoteAddressXyZ123456789
-echo -----------------------------------------------------------------------
-echo.
-echo [🔒] ENTER THE DECRYPTION KEY TO UNLOCK YOUR PC:
-echo.
+do {
+    $key = Read-Host -Prompt "> "
+    if ($key -ne "phubtroll") {
+        Write-Host "[X] WRONG KEY. ACCESS DENIED. TRY AGAIN." -ForegroundColor Red
+    }
+} while ($key -ne "phubtroll")
 
-:loop
-set /p "key=> "
-if "%key%"=="phub" (
-    goto success
-) else (
-    echo [X] WRONG KEY. ACCESS DENIED. TRY AGAIN.
-    goto loop
-)
-
-:success
-cls
-color 0A
-echo =======================================================================
-echo                    SUCCESS: SYSTEM DECRYPTED !
-echo =======================================================================
-echo.
-echo Decompressing and restoring your files... Please wait.
-echo.
-timeout /t 3 >nul
-echo [OK] All files have been successfully restored. 
-echo.
-echo Cet ecran etait une simulation. Aucun fichier n'a ete modifie. ;)
-echo.
-pause
-exit
+Clear-Host
+$Host.UI.RawUI.ForegroundColor = "Green"
+Write-Host "======================================================================="
+Write-Host "                    SUCCESS: SYSTEM DECRYPTED !"
+Write-Host "======================================================================="
+Write-Host ""
+Write-Host "Decompressing and restoring your files... Please wait."
+Write-Host ""
+Start-Sleep -Seconds 3
+Write-Host "[OK] All files have been successfully restored."
+Write-Host ""
+Write-Host "Cet ecran etait une simulation. Aucun fichier n'a ete modifie."
+Write-Host ""
+Read-Host -Prompt "Appuyez sur Entree pour quitter"
